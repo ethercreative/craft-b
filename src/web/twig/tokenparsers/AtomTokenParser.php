@@ -40,8 +40,11 @@ class AtomTokenParser extends AbstractTokenParser
 		$capture = $this->_lookForClosing($stream);
 
 		// Get the file name
-		$stream->next();
+		if (!$stream->test(Token::STRING_TYPE))
+			throw new SyntaxError('You must specify an atom name');
+
 		$attributes['handle'] = $stream->getCurrent()->getValue();
+		$stream->next();
 
 		// Are any variables defined?
 		if ($stream->test(Token::PUNCTUATION_TYPE))

@@ -24,7 +24,7 @@ class AtomNode extends Node implements NodeCaptureInterface
 			->addDebugInfo($this)
 			->write('ob_start();' . PHP_EOL)
 			->subcompile($value)
-			->write(CraftB::class . '::renderAtom(' . $handle . ', ')
+			->write(CraftB::class . '::renderAtom(\'' . $handle . '\', ')
 			->raw($data->compile($compiler) . ', ')
 			->raw('ob_get_clean());' . PHP_EOL);
 	}

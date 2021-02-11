@@ -4,6 +4,7 @@
 namespace ether\craftb;
 
 use Craft;
+use craft\web\View;
 use ether\craftb\web\twig\Extension;
 use Twig\Error\LoaderError;
 use Twig\Error\SyntaxError;
@@ -42,28 +43,31 @@ class CraftB extends Module
 	 * @param array       $variables
 	 * @param string|null $children
 	 *
-	 * @return string
 	 * @throws Exception
 	 */
 	public static function renderAtom (
 		string $handle,
 		array $variables = [],
 		string $children = null
-	) : string {
+	) : void {
+		$view = Craft::$app->getView();
+
 		$template = self::$_config['atoms'] . '/' . $handle;
+		if (strpos($template, '.twig') === false) $template .= '.twig';
+
 		$variables['children'] = $children;
 
-		if (!Craft::$app->view->doesTemplateExist($template))
+		if (!$view->doesTemplateExist($template))
 		{
 			Craft::error(
 				"Error locating template: {$template}",
 				__METHOD__
 			);
 
-			return '';
+			return;
 		}
 
-		return Craft::$app->getView()->render($template, $variables);
+		echo $view->renderTemplate($template, $variables);
 	}
 
 	/**
@@ -79,11 +83,13 @@ class CraftB extends Module
 		if (getenv('CRITICAL') === 'false')
 			return;
 
-		$critical = Craft::$app->view->renderString(
+		$view = Craft::$app->getView();
+
+		$critical = $view->renderString(
 			'{{ source("' . self::$_config['critical'] . '/' . $handle . '.css", ignore_missing=true) }}'
 		);
 
-		Craft::$app->view->registerCss($critical);
+		$view->registerCss($critical);
 	}
 
 }

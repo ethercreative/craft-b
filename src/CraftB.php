@@ -71,11 +71,10 @@ class CraftB extends Module
 	 *
 	 * @param string $handle
 	 *
-	 * @return string
 	 * @throws LoaderError
 	 * @throws SyntaxError
 	 */
-	public static function renderCritical (string $handle) : string
+	public static function renderCritical (string $handle): void
 	{
 		if (getenv('CRITICAL') === 'false')
 			return;

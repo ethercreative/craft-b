@@ -1,0 +1,8 @@
+version: "3"
+services:
+  php:
+    image: ethercreative/craft-php-fpm-alpine:mysql-xml
+    volumes:
+      - ./:/var/www/html:delegated
+      - ~/.composer/cache:/root/.composer/cache:delegated
+    restart: unless-stopped

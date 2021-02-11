@@ -80,7 +80,7 @@ class CraftB extends Module
 			return;
 
 		$critical = Craft::$app->view->renderString(
-			'{{ source("_critical/' . $handle . '.css", ignore_missing=true) }}'
+			'{{ source("' . self::$_config['critical'] . '/' . $handle . '.css", ignore_missing=true) }}'
 		);
 
 		Craft::$app->view->registerCss($critical);

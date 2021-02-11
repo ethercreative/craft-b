@@ -55,7 +55,7 @@ class CraftB extends Module
 		$template = self::$_config['atoms'] . '/' . $handle;
 		if (strpos($template, '.twig') === false) $template .= '.twig';
 
-		$variables['children'] = $children;
+		$variables['children'] = new Markup($children, 'utf8');
 
 		if (!$view->doesTemplateExist($template))
 		{

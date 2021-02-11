@@ -6,6 +6,7 @@ namespace ether\craftb;
 use Craft;
 use craft\web\View;
 use ether\craftb\web\twig\Extension;
+use Twig\Markup;
 use Twig\Error\LoaderError;
 use Twig\Error\SyntaxError;
 use yii\base\Exception;

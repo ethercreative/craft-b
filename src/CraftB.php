@@ -22,11 +22,11 @@ class CraftB extends Module
 		self::setInstance($this);
 
 		self::$_config = require __DIR__ . '/config.php';
-		if (file_exists(CRAFT_CONFIG_PATH . '/b.php'))
+		if (file_exists(CRAFT_BASE_PATH . '/config/b.php'))
 		{
 			self::$_config = array_merge(
 				self::$_config,
-				require CRAFT_CONFIG_PATH . '/b.php'
+				require CRAFT_BASE_PATH . '/config/b.php'
 			);
 		}
 

@@ -4,7 +4,7 @@ Shared module for traditional Craft/Twig sites
 ## Installation
 
 ```shell
-$ composer require ether/craft-b
+$ composer require ether/craftb
 ```
 
 In `config/app.php`:

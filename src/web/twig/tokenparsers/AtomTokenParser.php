@@ -102,12 +102,50 @@ class AtomTokenParser extends AbstractTokenParser
 	 */
 	private function _lookForClosing (TokenStream $stream)
 	{
+		$tagNames = array_keys(\Craft::$app->getView()->getTwig()->getTags());
+
 		try {
 			$count = 0;
+			$openers = [];
+			$all = [];
 
 			while (true)
-				if ($stream->look(++$count)->test('end' . $this->getTag()))
-					return true;
+			{
+				$token = $stream->look(++$count);
+
+				$all[] = $token->getValue();
+
+				// Is this a name token
+				if ($token->getType() === Token::NAME_TYPE)
+				{
+					$value = $token->getValue();
+
+					// Is this an end token?
+					if (strpos($value, 'end') !== false)
+					{
+						// Get index of most recent atom token
+						$i = array_search($this->getTag(), array_reverse($openers, true), true);
+
+						// Do we have an opening atom token
+						if ($i !== false)
+						{
+							// Remove nested atom from openers list
+							array_splice($openers, $i, 1);
+							continue;
+						}
+
+						// Is this an atom end token?
+						if ($token->test('end' . $this->getTag()))
+							return true;
+
+						// Is this another end token?
+						if (!in_array(str_replace('end', '', $value), $openers))
+							return false;
+					}
+					// Add all other tags to openers
+					else if (in_array($value, $tagNames)) $openers[] = $value;
+				}
+			}
 		} catch (Exception $e) {}
 
 		return false;

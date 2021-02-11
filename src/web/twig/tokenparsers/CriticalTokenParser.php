@@ -28,8 +28,11 @@ class CriticalTokenParser extends AbstractTokenParser
 		$attributes = [];
 
 		// Get the file name
-		$stream->next();
+		if (!$stream->test(Token::STRING_TYPE))
+			throw new SyntaxError('You must specify an atom name');
+
 		$attributes['handle'] = $stream->getCurrent()->getValue();
+		$stream->next();
 
 		// Close out the tag
 		$stream->expect(Token::BLOCK_END_TYPE);

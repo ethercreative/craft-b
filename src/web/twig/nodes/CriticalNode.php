@@ -17,7 +17,7 @@ class CriticalNode extends Node implements NodeCaptureInterface
 
 		$compiler
 			->addDebugInfo($this)
-			->write(CraftB::class . '::renderCritical(' . $handle . ');' . PHP_EOL);
+			->write(CraftB::class . '::renderCritical(\'' . $handle . '\');' . PHP_EOL);
 	}
 
 }
